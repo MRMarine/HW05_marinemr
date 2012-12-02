@@ -6,7 +6,7 @@ MatrixGraph::MatrixGraph(unsigned num_nodes){
 	M.resize(num_nodes);
 	num_edges = 0;
 
-	for(int i = 0; i < num_nodes; i++){
+	for(int i = 0; i < (int)num_nodes; i++){
 		M[i].resize(num_nodes);
 	}
 }
