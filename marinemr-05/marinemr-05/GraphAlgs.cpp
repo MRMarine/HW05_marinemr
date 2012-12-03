@@ -44,14 +44,18 @@ void findBestTour(int cur, int len, int* arr){
 
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G){
 	check = true;
-	list<NWPair> pairs;
-	pairs = G->getAdj(0);
+	list<NWPair> pairs = G->getAdj(0);
 	
 	int j = 0;
 	int* arr = new int[pairs.size()];
 
-	while(pairs.size() > 0){
-		arr[j] = pairs.pop_back().first;
+	list<NWPair>::const_iterator it;
+
+	int k = 0;
+	for(it = pairs.begin(); it != pairs.end(); it++){
+		NWPair pairIT = (*it);
+
+		arr[k++] = pairIT.first;
 	}
 
 	findBestTour(1, G->size(), arr);
@@ -62,5 +66,5 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G){
 		vect.push_back(best[i]);
 	}
 
-	return make_pair(best, bestSum);
+	return make_pair(vect, bestSum);
 }

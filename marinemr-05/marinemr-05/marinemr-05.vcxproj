@@ -50,12 +50,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Stratos\Miami\HW05_marinemr;C:\Users\marinemr\Desktop\materials\materials.d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\marinemr\Documents\GitHub\HW05_marinemr;C:\Users\Stratos\Miami\HW05_marinemr;C:\Users\marinemr\Desktop\materials\materials.d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Stratos\Miami\HW05_marinemr;C:\Users\marinemr\Desktop\materials\materials.d;%(AdditionalIncludeDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\marinemr\Documents\GitHub\HW05_marinemr;C:\Users\Stratos\Miami\HW05_marinemr;C:\Users\marinemr\Desktop\materials\materials.d;%(AdditionalIncludeDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
