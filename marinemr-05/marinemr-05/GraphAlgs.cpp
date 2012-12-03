@@ -11,20 +11,22 @@ int arr_len;
 
 
 void checkTour(double sum1, int j, NodeID* arr){
-	double sum = 0;
-	/*double sum = sum1;
+	//double sum = 0;
+	double sum = sum1;
 
-	int i = j-2;
+	int i = j-3;
 	if(i < 0){
 		sum = 0;
 		i = 0;
-	}*/
+	}
 
-	for(int i = 0; i < arr_len - 1; i++){
+	//i = 0;
+
+	for(; i < arr_len - 1; i++){
+		sum += graph->weight(arr[i], arr[i+1]);
 		/*if(sum == sum1){
 			cout << "i = " << i << "; j = " << j << endl;
 		}*/
-		sum += graph->weight(arr[i], arr[i+1]);
 	}
 	sum += graph->weight(arr[arr_len-1], arr[0]);
 
@@ -44,6 +46,7 @@ void swap(NodeID* arr, int first, int second){
 	arr[second] = temp;
 }
 
+/*
 void findBestTour(int cur, NodeID* arr){
 	double sum = 0;
 	for(int i = 0; i < cur - 1; i++){
@@ -58,16 +61,19 @@ void findBestTour(int cur, NodeID* arr){
 			swap(arr, i, cur);
 		}
 	}
-}
+}*/
 
 void findBestTour(double sum, int cur, NodeID* arr){
-	sum += graph->weight(arr[cur-1], arr[cur]);
+	
 
 	if(sum < bestSum){
 
 		for(int i = cur + 1; i < arr_len; i++){
 			swap(arr, i, cur);
+
+			sum += graph->weight(arr[cur-1], arr[cur]);
 			checkTour(sum, cur, arr);
+
 			findBestTour(sum, i, arr);
 			swap(arr, i, cur);
 		}
@@ -102,7 +108,7 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G){
 
 	NodeID* arr = setup(G);
 
-	findBestTour(1, arr);
+	findBestTour(0.0,1, arr);
 
 	vector<NodeID> vect;
 
