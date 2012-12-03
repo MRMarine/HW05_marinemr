@@ -8,6 +8,10 @@ MatrixGraph::MatrixGraph(unsigned num_nodes){
 
 	for(int i = 0; i < (int)num_nodes; i++){
 		M[i].resize(num_nodes);
+
+		for(int j = 0; j < (int)num_nodes; j++){
+			M[i][j] = 0; // is this needed?
+		}
 	}
 }
 

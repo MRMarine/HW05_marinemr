@@ -12,11 +12,9 @@ bool check;
 
 void checkTour(int* arr){
 	double sum = 0;
-	arr_len = 0;
 
-	for(int i = 0; i < (int)(graph->size()); i++){
+	for(int i = 0; i < arr_len; i++){
 		sum += graph->weight(i, i+1);
-		arr_len++;
 	}
 
 	if(sum < bestSum || check){
@@ -37,17 +35,25 @@ void swap(int* arr, int first, int second){
 void findBestTour(int cur, int len, int* arr){
 	for(int i = cur + 1; i < len; i++){
 		swap(arr, i, cur);
+		checkTour(arr);
 		findBestTour(i, len, arr);
 		swap(arr, i, cur);
 	}
+}
+
+void setup(Graph* G){
+	arr_len = G->size();
+
 }
 
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G){
 	check = true;
 	list<NWPair> pairs = G->getAdj(0);
 	
+	setup(G);
+
 	int j = 0;
-	int* arr = new int[pairs.size()];
+	int* arr = new int[arr_len];
 
 	list<NWPair>::const_iterator it;
 

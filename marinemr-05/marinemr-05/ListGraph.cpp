@@ -62,7 +62,7 @@ EdgeWeight ListGraph::weight(NodeID u, NodeID v) const{
 	
 	// insert v -> u as well to be semetrical
 	
-	return -1.0; // no connection.
+	return 0.0; // no connection.
 }
 
 std::list<NWPair> ListGraph::getAdj(NodeID u) const{

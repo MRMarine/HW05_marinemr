@@ -76,23 +76,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Controller.cpp" />
-    <ClCompile Include="..\..\StarbucksMap.cpp" />
-    <ClCompile Include="..\..\Tester.cpp" />
+    <None Include="Starbucks.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="GraphAlgs.h" />
+    <ClInclude Include="ListGraph.h" />
+    <ClInclude Include="MatrixGraph.h" />
+    <ClInclude Include="StarbucksMap.h" />
+    <ClInclude Include="Tester.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="GraphAlgs.cpp" />
     <ClCompile Include="ListGraph.cpp" />
     <ClCompile Include="MatrixGraph.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\Graph.h" />
-    <ClInclude Include="..\..\GraphAlgs.h" />
-    <ClInclude Include="..\..\ListGraph.h" />
-    <ClInclude Include="..\..\MatrixGraph.h" />
-    <ClInclude Include="..\..\StarbucksMap.h" />
-    <ClInclude Include="..\..\Tester.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Starbucks.csv" />
+    <ClCompile Include="StarbucksMap.cpp" />
+    <ClCompile Include="Tester.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
