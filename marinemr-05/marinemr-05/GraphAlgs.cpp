@@ -1,70 +1,80 @@
 #include "GraphAlgs.h"
 #include "Graph.h"
+#include <iostream>
 
 using namespace std;
 
-int* best;
+NodeID* best;
 double bestSum = 0;
 Graph* graph;
 int arr_len;
 
-bool check;
+//bool check;
 
-void checkTour(int* arr){
+void checkTour(NodeID* arr){
 	double sum = 0;
 
-	for(int i = 0; i < arr_len; i++){
-		sum += graph->weight(i, i+1);
+	for(int i = 0; i < arr_len - 1; i++){
+		sum += graph->weight(arr[i], arr[i+1]);
 	}
+	sum += graph->weight(arr[arr_len-1], arr[0]);
 
-	if(sum < bestSum || check){
+	if(sum < bestSum){
+		for(int i = 0; i < arr_len; i++){
+			best[i] = arr[i];
+		}
+		
 		bestSum = sum;
-		best = arr;
-
-		check = false;
+		//check = false;
 	}
 }
 
-void swap(int* arr, int first, int second){
-	int temp = arr[first];
+void swap(NodeID* arr, int first, int second){
+	NodeID temp = arr[first];
 
 	arr[first] = arr[second];
 	arr[second] = temp;
 }
 
-void findBestTour(int cur, int len, int* arr){
-	for(int i = cur + 1; i < len; i++){
+void findBestTour(int cur, NodeID* arr){
+	for(int i = cur + 1; i < arr_len; i++){
 		swap(arr, i, cur);
 		checkTour(arr);
-		findBestTour(i, len, arr);
+		findBestTour(i, arr);
 		swap(arr, i, cur);
 	}
 }
 
-void setup(Graph* G){
-	arr_len = G->size();
-
-}
-
-std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G){
-	check = true;
+NodeID* setup(Graph* G){
 	list<NWPair> pairs = G->getAdj(0);
-	
-	setup(G);
 
-	int j = 0;
-	int* arr = new int[arr_len];
+	arr_len = G->size();
+	graph = G;
+
+	NodeID* arr = new NodeID[arr_len];
+	best = new NodeID[arr_len];
 
 	list<NWPair>::const_iterator it;
 
-	int k = 0;
-	for(it = pairs.begin(); it != pairs.end(); it++){
-		NWPair pairIT = (*it);
-
-		arr[k++] = pairIT.first;
+	for(int i = 0; i < arr_len; i++){
+		arr[i] = i;
+		best[i] = i;
 	}
 
-	findBestTour(1, G->size(), arr);
+	for(int i = 0; i < arr_len - 1; i++){
+		bestSum += graph->weight(arr[i], arr[i+1]);
+	}
+	bestSum += graph->weight(arr[arr_len-1], arr[0]);
+
+	return arr;
+}
+
+std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G){
+	//check = true;
+
+	NodeID* arr = setup(G);
+
+	findBestTour(0, arr);
 
 	vector<NodeID> vect;
 
