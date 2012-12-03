@@ -124,8 +124,10 @@ int main(int argc, char** argv) {
   StarbucksMap SB;
 
   for(int i = 5; i < 10; i++){
-  testSingleTSP(SB, 5, true);
-  testSingleTSP(SB, 5, false);
+  testSingleTSP(SB, i, true);
+  testSingleTSP(SB, i, false);
+
+  cout << "Tested " << i << "values" << endl;
   }
 
   pair<int,int> p = testSpeedTSP(SB, 60, true);
