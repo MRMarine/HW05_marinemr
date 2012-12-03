@@ -1,70 +1,96 @@
 #include "GraphAlgs.h"
 #include "Graph.h"
 #include <iostream>
+#include <deque>
 
 using namespace std;
 
-NodeID* best;
+//NodeID* best;
 double bestSum = 0;
 Graph* graph;
 int arr_len;
+vector<NodeID> best;
 
 
-void checkTour(double sum, int i, NodeID* arr){
-	//double sum = 0;
+void checkTour(double sum1, int j, vector<NodeID> arr){
+	double sum = 0;
 
-	for(; i < arr_len - 1; i++){
+	for(int i = 0; i < arr_len - 1; i++){
 		sum += graph->weight(arr[i], arr[i+1]);
 	}
-	sum += graph->weight(arr[arr_len-1], arr[0]);
+	sum += graph->weight(arr[arr_len-1], 0);
 
 	if(sum < bestSum){
-		for(int i = 0; i < arr_len; i++){
+		/*for(int i = 0; i < arr_len; i++){
 			best[i] = arr[i];
-		}
+		}*/
 		
+		best = arr;
 		bestSum = sum;
 	}
 }
 
-void swap(NodeID* arr, int first, int second){
+void swap(vector<NodeID> arr, int first, int second){
 	NodeID temp = arr[first];
 
 	arr[first] = arr[second];
 	arr[second] = temp;
 }
 
-void findBestTour(int cur, NodeID* arr){
-	double sum = 0;
-	for(int i = 0; i < cur; i++){
-		sum += graph->weight(arr[i], arr[i+1]);
-	}
-	if(sum < bestSum){
+//void half_tours(){
+//	vector<NodeID> vec;
+//	vector<double> sums;
+//
+//	for(int j = 0; j < h_size; j++){
+//		vec = arrs_h[j];
+//		double sum = 0;
+//		for(int i = 0; i < arr_len / 2 + 1; i++){
+//			sum += graph->weight(vec[i], vec[i+1]);
+//		}
+//		//sum += graph->weight(arrs_h[arr_len-1], arr[0]);
+//		sums.push_back(sum);
+//	}
+//	
+//	sort(sums.begin(),sums.end());
+//}
 
-		for(int i = cur + 1; i < arr_len; i++){
+// Cary Willard suggested that I pass sum in somehow, although he mentioned a global variable instead
+void findBestTour(int sum, int cur, vector<NodeID> arr){
+	// don't redo the sum each time
+
+	sum += graph->weight(arr[cur-1], arr[cur]);
+
+	if(sum < bestSum){
+		for(int i = cur + 1; i < arr_len -1; i++){
 			swap(arr, i, cur);
+
+			//sum += graph->weight(arr[cur-1], arr[cur]);
+
 			checkTour(sum, cur, arr);
-			findBestTour(i, arr);
+			findBestTour(sum, i, arr);
 			swap(arr, i, cur);
 		}
 	}
+
+	//half_tours();
 }
 
-NodeID* setup(Graph* G){
+vector<NodeID> setup(Graph* G){
 	list<NWPair> pairs = G->getAdj(0);
 
 	arr_len = G->size();
 	graph = G;
 
-	NodeID* arr = new NodeID[arr_len];
-	best = new NodeID[arr_len];
+	vector<NodeID> arr;
 
 	list<NWPair>::const_iterator it;
 
 	for(int i = 0; i < arr_len; i++){
-		arr[i] = i;
-		best[i] = i;
+		arr.push_back(i);
+		//best.push_back(i);
 	}
+
+	best = arr;
 
 	for(int i = 0; i < arr_len - 1; i++){
 		bestSum += graph->weight(arr[i], arr[i+1]);
@@ -76,22 +102,13 @@ NodeID* setup(Graph* G){
 
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G){
 
-	NodeID* arr = setup(G);
+	vector<NodeID> arr = setup(G);
 
-	findBestTour(1, arr);
+	// if you don't swap the first element, you don't check anything you've already checked but are shifted over.
+	// if you don't swap the first element, you only have 1 reverse
+	// if you don't check things, you don't spend time
+	// correct + fast solution = good grade
+	findBestTour(0.0, 1, arr);
 
-	vector<NodeID> vect;
-
-	bool first = true;
-	for(int i = 0; i < arr_len; i++){
-		if(best[i] != i){
-			first = false;
-		}
-	}
-
-	for(int i = 0; i < arr_len; i++){
-		vect.push_back(best[i]);
-	}
-
-	return make_pair(vect, bestSum);
+	return make_pair(best, bestSum);
 }
