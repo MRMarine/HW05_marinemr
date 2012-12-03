@@ -24,9 +24,6 @@ void checkTour(double sum1, int j, NodeID* arr){
 
 	for(; i < arr_len - 1; i++){
 		sum += graph->weight(arr[i], arr[i+1]);
-		/*if(sum == sum1){
-			cout << "i = " << i << "; j = " << j << endl;
-		}*/
 	}
 	sum += graph->weight(arr[arr_len-1], arr[0]);
 

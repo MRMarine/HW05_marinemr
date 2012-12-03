@@ -23,7 +23,7 @@ void ListGraph::addEdge(NodeID u, NodeID v, EdgeWeight weight)	{
 		// update pair
 		if(pairIT.first == v){
 			pairIT.second = weight;
-			return;
+			found = true;
 		}
 	}
 
